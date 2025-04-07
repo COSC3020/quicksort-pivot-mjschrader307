@@ -22,8 +22,6 @@ might help with the notation for mathematical expressions.
 
 ---
 
-I happen to be taking a Probability course right now, which is good for this.
-
 I am going to define a "good" pivot as one that falls in the middle 50% of the distribution of elements in the array. This is because those values should be fairly close to the median value of the array, which should split the array roughly in half as a pivot.
 
 I would guess that for an arbitrary, uniformly-random array of numbers, about half of the elements would be considered "good" pivots, because that many would be in the middle 50% of the distribution.
@@ -34,22 +32,72 @@ Therefore, the probability of having the first element of the array be a good pi
 
 If picking three elements at random from the array, there are $2^3$ or 8 possible outcomes, in terms of whether each of them individually are good pivots or not:
 
-${(G, G, G), (N, G, G), (G, N, G), (G, G, N), (N, N, G), (N, G, N), (G, N, N), (N, N, N)}$
+$S =$ {$(G,G,G), (G,G,N), (G,N,G), (N,G,G), (G,N,N), (N,N,G), (N,G,N), (N,N,N)$}
 
-The probabilities of having a certain amount of good pivots, using the above set:
+Four scenarios of a certain number of good pivots in sample of three elements:
 
-| Number of good pivots | Probability |
-| --- | --- |
-| 0 | $\frac{1}{8} = 12.5$ % |
-| 1+ | $\frac{7}{8} = 87.5$ % |
-| 2+ | $\frac{4}{8} = 50$ % |
-| 3 | $\frac{1}{8} = 12.5$ % |
+| Exact Number of Good Pivots | Probability           |
+| ------------ | --------------------- |
+| 0            | $\frac{1}{8} = 12.5$% |
+| 1            | $\frac{3}{8} = 37.5$% |
+| 2            | $\frac{3}{8} = 37.5$% |
+| 3            | $\frac{1}{8} = 12.5$% |
 
-I'm not sure how to calculate the exact theoretical probability of having the median of any of those orderings be a good pivot, but I would imagine it falls between 50% and 87.5%. 
+### Case 1: No Good Pivots in Sample
 
-Either way, that value (representing the probability that the median of three is a good pivot) is higher than the probability of picking one random element and hoping it is a good pivot. 
+Fix elements like so: A = N, B = N, C = N
 
---- 
+Obviously, there is no ordering of A, B, and C where the middle value is a good pivot, so the probability for this case is 0%
+
+### Case 2: One Good Pivot in Sample
+
+Fix elements: A = G, B = N, C = N
+
+Six possible orderings:
+
+| Ordering  | Middle Value |
+| --------- | ------------ |
+| A < B < C | B = N        |
+| A < C < B | C = N        |
+| B < A < C | A = G        |
+| B < C < A | C = N        |
+| C < A < B | A = G        |
+| C < B < A | B = N        |
+2 ways out of 6 that the middle value is a good pivot: probability is $\frac{1}{3}$
+
+This end probability is the same for if B = G and if C = G.
+
+### Case 3: Two Good Pivots in Sample
+
+Fix elements: A = G, B = G, C = N
+
+Same 6 orderings:
+
+| Ordering  | Middle Value |
+| --------- | ------------ |
+| A < B < C | B = G        |
+| A < C < B | C = N        |
+| B < A < C | A = G        |
+| B < C < A | C = N        |
+| C < A < B | A = G        |
+| C < B < A | B = G        |
+
+4 ways out of 6 that the middle value is good pivot: probability is $\frac{2}{3}$
+
+### Case 4: All Three are Good Pivots
+
+Obviously, if all three elements are good pivots, the median should be good also. Probability is 100%
+
+
+### Conclusion
+
+Using the Law of Total Probability:
+
+$P(\text{Good Pivot using Median of Three}) = \frac{1}{8}(0) + \frac{3}{8}(\frac{1}{3}) + \frac{3}{8}(\frac{2}{3}) + \frac{1}{8}(1) = 0 + \frac{3}{24} + \frac{6}{24} + \frac{3}{24} = \frac{15}{24} = \frac{5}{8} = 0.625$
+
+Therefore, I have come to the conclusion that for a random array, there is a 62.5% chance that the Median of Three procedure produces a good pivot element, which is quite better than just picking one element and hoping it's good (50% chance)
+
+---
 
 **I certify that I have listed all sources used to complete this exercise, including the use
 of any Large Language Models. All of the work is my own, except where stated
